@@ -59,7 +59,7 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid credentials.");
     }
 
-    const token = jwt.sign({ _id: user._id }, "devTinder");
+    const token = await user.createJWT()
 
     res.cookie("token", token);
 

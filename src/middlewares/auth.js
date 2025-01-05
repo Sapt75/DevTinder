@@ -13,11 +13,13 @@ async function authValidate(req, res, next) {
 
     const user = await User.findById(decoded._id);
 
-    req.user = user;
+    if(user) req.user = user;
+    else throw new Error("User does not exist!")
+
     next();
   } catch (err) {
     console.log(err);
-    res.status(401).json({ message: "Invalid token" });
+    res.status(401).json({ message: "Invalid token, Please login again!!" });
   }
 }
 
