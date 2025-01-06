@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   firstName: {
@@ -57,6 +58,14 @@ const userSchema = new Schema({
 userSchema.methods.createJWT = async function () {
   const token = jwt.sign({ _id: this._id }, "devTinder");
   return token;
+};
+
+userSchema.methods.validatePassword = async function (password) {
+  const isMatch = await bcrypt.compare(password, this.password);
+
+  if (!isMatch) {
+    throw new Error("Invalid credentials.");
+  }
 };
 
 const User = model("user", userSchema);

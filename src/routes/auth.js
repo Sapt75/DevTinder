@@ -53,11 +53,7 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("User not found.");
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      throw new Error("Invalid credentials.");
-    }
+    await user.validatePassword(password)
 
     const token = await user.createJWT()
 
