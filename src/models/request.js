@@ -3,10 +3,12 @@ const { model, Schema } = require("mongoose");
 const requestSchema = new Schema({
   fromUserID: {
     type: Schema.Types.ObjectId,
+    ref: "user",
     required: true,
   },
   toUserID: {
     type: Schema.Types.ObjectId,
+    ref: "user",
     required: true,
   },
   status: {
